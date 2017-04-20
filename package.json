@@ -6,13 +6,19 @@
   "author": "William Norman <lordcrekit@gmail.com>",
   "license": "GPL-3.0",
   "scripts": {
-    "build:lintjs": "standard *.js",
-    "build:lintcss": "stylelint --config .stylelint *.css *.scss",
-    "build": "run-s build:*",
+    "lint:js": "standard *.js",
+    "lint:css": "stylelint *.css",
+    "lint:html": "htmlhint *.html",
+    "lint": "run-s lint:*",
+    "build": "run-s lint build:*",
     "deploy:push": "surge --project . --domain https://normanwi-kgucykegmdzxwt4ltxo.surge.sh/",
     "deploy": "run-s build deploy:*"
   },
   "devDependencies": {
-    "npm-run-all": "^4.0.2"
+    "htmlhint": "^0.9.13",
+    "npm-run-all": "^4.0.2",
+    "standard": "^10.0.2",
+    "stylelint": "^7.10.1",
+    "stylelint-config-standard": "^16.0.0"
   }
 }
