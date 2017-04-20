@@ -1,3 +1,5 @@
+/* global wooferdb */
+
 //
 //
 //            !!!!!!!! WARNING !!!!!!!!
@@ -32,7 +34,7 @@ function addWoofRow (woofKey, woof) {
 function createWoof () {
   var text = woofText.value || ''
   if (!text.trim().length) return
-  createWoofInDatabase({
+  wooferdb.createWoofInDatabase({
     created_at: new Date().getTime(),
     text: text
   })
@@ -62,7 +64,7 @@ function editWoof (event) {
 
   if (event.keyCode === 13) {
     // Enter key pressed
-    updateWoofInDatabase(row.id, textbox.value)
+    wooferdb.updateWoofInDatabase(row.id, textbox.value)
   } else if (event.keyCode === 27) {
     // Escape key pressed
     form.className = form.className.replace('show', 'hidden')
@@ -89,7 +91,7 @@ function deleteWoofRow (woofKey) {
 // Remove the clicked woof from the database
 function deleteWoof () {
   var row = this.parentElement.parentElement
-  deleteWoofFromDatabase(row.id)
+  wooferdb.deleteWoofFromDatabase(row.id)
 }
 
 // Event listeners to add a new woof
