@@ -15,7 +15,9 @@
   var woofs = document.getElementById('woofs')
   var woofCreate = document.getElementById('woof-button')
 
-  // Adds a new row to the list of woofs
+  /**
+   * Adds a new row to the list of woofs
+   */
   function addWoofRow (woofKey, woof) {
     var template = document.getElementById('woof-template')
     var clone = document.importNode(template.content, true)
@@ -73,7 +75,11 @@
     }
   }
 
-  // Update the woof text in a row on the page
+  /**
+   * Update the woof text in a row on the page
+   * @param woofKey
+   * @param woof
+   */
   function updateWoofRow (woofKey, woof) {
     var row = document.getElementById(woofKey)
     var form = row.querySelector('input').parentElement
@@ -83,7 +89,10 @@
     text.className = text.className.replace('hidden', 'show')
   }
 
-  // Remove a woof row from the page
+  /**
+   * Remove a woof row from the page
+   * @param woofKey
+   */
   function deleteWoofRow (woofKey) {
     var row = document.getElementById(woofKey)
     row.parentElement.removeChild(row)
@@ -101,7 +110,7 @@
     if (event.keyCode === 13) createWoof()
   })
 
+  window.addWoofRow = addWoofRow
   window.updateWoofRow = updateWoofRow
   window.deleteWoofRow = deleteWoofRow
-  window.addWoofRow = addWoofRow
 })()

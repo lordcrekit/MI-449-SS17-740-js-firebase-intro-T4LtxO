@@ -1,4 +1,4 @@
-/* global firebase */
+/* global firebase, addWoofRow, updateWoofRow, deleteWoofRow */
 
 (function () {
   // Initialize Firebase
@@ -24,7 +24,7 @@
 
     // UPDATE the woof in Firebase
     updateWoofInDatabase: function (woofKey, woofText) {
-      var woof = firebase.database().ref('woofs').child(woofkey)
+      var woof = firebase.database().ref('woofs').child(woofKey)
       if (!woof) {
         window.alert('woof ' + woof + ' not found Dx!!!')
       } else {
@@ -34,7 +34,12 @@
 
     // DELETE the woof from Firebase
     deleteWoofFromDatabase: function (woofKey) {
-      // TODO delete the record from Firebase
+      var toDel = firebase.database().ref('woofs').child(woofKey)
+      if (!toDel) {
+        window.alert('Couldn\'t find that Dx')
+      } else {
+        toDel.remove()
+      }
     }
   }
 
@@ -42,11 +47,18 @@
 
   // READ from Firebase when woofs are added, changed, or removed
   // Call addWoofRow, updateWoofRow, and deleteWoofRow to update the page
-  readWoofsInDatabase: function () {
-    // TODO read new, changed, and deleted Firebase records
+  function readWoofsInDatabase () {
+    firebase.database().ref('woofs').on('child_added', function (woofSnapshot) {
+      addWoofRow(woofSnapshot.key, woofSnapshot.val())
+    })
+    firebase.database().ref('woofs').on('child_changed', function (woofSnapshot) {
+      updateWoofRow(woofSnapshot.key, woofSnapshot.val())
+    })
+    firebase.database().ref('woofs').on('child_removed', function (woofSnapshot) {
+      deleteWoofRow(woofSnapshot.key)
+    })
   }
 
   // Load all of the data
   readWoofsInDatabase()
-
 })()
