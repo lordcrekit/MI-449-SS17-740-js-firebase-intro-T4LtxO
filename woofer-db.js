@@ -19,24 +19,17 @@
   var wooferdb = {
     // CREATE a new woof in Firebase
     createWoofInDatabase: function (woof) {
-      window.alert(JSON.stringify(woof))
-      firebase.ref('woofs').push(woof)
-    },
-
-    // If we are already reading from the database.
-    _reading: false,
-
-    // READ from Firebase when woofs are added, changed, or removed
-    // Call addWoofRow, updateWoofRow, and deleteWoofRow to update the page
-    readWoofsInDatabase: function () {
-      if (wooferdb._reading) {
-      }
-      // TODO read new, changed, and deleted Firebase records
+      firebase.database().ref('woofs').push(woof)
     },
 
     // UPDATE the woof in Firebase
     updateWoofInDatabase: function (woofKey, woofText) {
-      // TODO update the record in Firebase
+      var woof = firebase.database().ref('woofs').child(woofkey)
+      if (!woof) {
+        window.alert('woof ' + woof + ' not found Dx!!!')
+      } else {
+        woof.child('text').set(woofText)
+      }
     },
 
     // DELETE the woof from Firebase
@@ -47,6 +40,13 @@
 
   window.wooferdb = wooferdb
 
+  // READ from Firebase when woofs are added, changed, or removed
+  // Call addWoofRow, updateWoofRow, and deleteWoofRow to update the page
+  readWoofsInDatabase: function () {
+    // TODO read new, changed, and deleted Firebase records
+  }
+
   // Load all of the data
-  wooferdb.readWoofsInDatabase()
+  readWoofsInDatabase()
+
 })()
