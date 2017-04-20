@@ -10,9 +10,8 @@
     "lint:css": "stylelint *.css",
     "lint:html": "htmlhint *.html",
     "lint": "run-s lint:*",
-    "build": "run-s lint build:*",
     "deploy:push": "surge --project . --domain https://normanwi-kgucykegmdzxwt4ltxo.surge.sh/",
-    "deploy": "run-s build deploy:*"
+    "deploy": "run-s lint deploy:*"
   },
   "devDependencies": {
     "htmlhint": "^0.9.13",
