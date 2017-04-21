@@ -24,22 +24,12 @@
 
     // UPDATE the woof in Firebase
     updateWoofInDatabase: function (woofKey, woofText) {
-      var woof = firebase.database().ref('woofs').child(woofKey)
-      if (!woof) {
-        window.alert('woof ' + woof + ' not found Dx!!!')
-      } else {
-        woof.child('text').set(woofText)
-      }
+      firebase.database().ref('woofs').child(woofKey).child('text').set(woofText)
     },
 
     // DELETE the woof from Firebase
     deleteWoofFromDatabase: function (woofKey) {
-      var toDel = firebase.database().ref('woofs').child(woofKey)
-      if (!toDel) {
-        window.alert('Couldn\'t find that Dx')
-      } else {
-        toDel.remove()
-      }
+      firebase.database().ref('woofs').child(woofKey).remove()
     }
   }
 
