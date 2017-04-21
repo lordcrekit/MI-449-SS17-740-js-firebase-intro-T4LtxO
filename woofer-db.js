@@ -1,6 +1,8 @@
-/* global firebase, addWoofRow, updateWoofRow, deleteWoofRow */
+/* global firebase */
 
-(function () {
+var woofer = woofer || {}
+
+woofer.db = (function () {
   // Initialize Firebase
   var config = {
     apiKey: 'AIzaSyC5wJiDYv-stmfG3l5LDqUHX7_zAYc6ZAc',
@@ -16,39 +18,42 @@
   firebase.auth().signInAnonymously()
 
   // Create and export wooferdb
-  var wooferdb = {
-    // CREATE a new woof in Firebase
-    createWoofInDatabase: function (woof) {
-      firebase.database().ref('woofs').push(woof)
-    },
-
-    // UPDATE the woof in Firebase
-    updateWoofInDatabase: function (woofKey, woofText) {
-      firebase.database().ref('woofs').child(woofKey).child('text').set(woofText)
-    },
-
-    // DELETE the woof from Firebase
-    deleteWoofFromDatabase: function (woofKey) {
-      firebase.database().ref('woofs').child(woofKey).remove()
-    }
+  // CREATE a new woof in Firebase
+  function createWoofInDatabase(woof) {
+    firebase.database().ref('woofs').push(woof)
   }
 
-  window.wooferdb = wooferdb
+  // UPDATE the woof in Firebase
+  function updateWoofInDatabase(woofKey, woofText) {
+    firebase.database().ref('woofs').child(woofKey).child('text').set(woofText)
+  }
+
+  // DELETE the woof from Firebase
+  function deleteWoofFromDatabase(woofKey) {
+    firebase.database().ref('woofs').child(woofKey).remove()
+  }
 
   // READ from Firebase when woofs are added, changed, or removed
   // Call addWoofRow, updateWoofRow, and deleteWoofRow to update the page
   function readWoofsInDatabase () {
     firebase.database().ref('woofs').on('child_added', function (woofSnapshot) {
-      addWoofRow(woofSnapshot.key, woofSnapshot.val())
+      woofer.ui.addWoofRow(woofSnapshot.key, woofSnapshot.val())
     })
     firebase.database().ref('woofs').on('child_changed', function (woofSnapshot) {
-      updateWoofRow(woofSnapshot.key, woofSnapshot.val())
+      woofer.ui.updateWoofRow(woofSnapshot.key, woofSnapshot.val())
     })
     firebase.database().ref('woofs').on('child_removed', function (woofSnapshot) {
-      deleteWoofRow(woofSnapshot.key)
+      woofer.ui.deleteWoofRow(woofSnapshot.key)
     })
   }
 
   // Load all of the data
   readWoofsInDatabase()
+
+  // Exports
+  return {
+    createWoofInDatabase,
+    updateWoofInDatabase,
+    deleteWoofFromDatabase
+  }
 })()

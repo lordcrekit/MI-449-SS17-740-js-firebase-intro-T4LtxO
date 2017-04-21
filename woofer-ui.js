@@ -1,4 +1,4 @@
-/* global wooferdb, moment */
+/* global moment */
 
 //
 //
@@ -10,7 +10,9 @@
 //
 //
 
-(function () {
+var woofer = woofer || {}
+
+woofer.ui = (function () {
   var woofText = document.getElementById('woof-text')
   var woofs = document.getElementById('woofs')
   var woofCreate = document.getElementById('woof-button')
@@ -37,7 +39,7 @@
   function createWoof () {
     var text = woofText.value || ''
     if (!text.trim().length) return
-    wooferdb.createWoofInDatabase({
+    woofer.db.createWoofInDatabase({
       created_at: new Date().getTime(),
       text: text
     })
@@ -67,7 +69,7 @@
 
     if (event.keyCode === 13) {
       // Enter key pressed
-      wooferdb.updateWoofInDatabase(row.id, textbox.value)
+      woofer.db.updateWoofInDatabase(row.id, textbox.value)
     } else if (event.keyCode === 27) {
       // Escape key pressed
       form.className = form.className.replace('show', 'hidden')
@@ -101,7 +103,7 @@
   // Remove the clicked woof from the database
   function deleteWoof () {
     var row = this.parentElement.parentElement
-    wooferdb.deleteWoofFromDatabase(row.id)
+    woofer.db.deleteWoofFromDatabase(row.id)
   }
 
   // Event listeners to add a new woof
@@ -110,7 +112,10 @@
     if (event.keyCode === 13) createWoof()
   })
 
-  window.addWoofRow = addWoofRow
-  window.updateWoofRow = updateWoofRow
-  window.deleteWoofRow = deleteWoofRow
+  // Exports
+  return {
+    addWoofRow,
+    updateWoofRow,
+    deleteWoofRow
+  }
 })()
