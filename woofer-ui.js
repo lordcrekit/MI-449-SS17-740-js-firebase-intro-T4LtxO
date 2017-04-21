@@ -10,7 +10,7 @@
 //
 //
 
-var woofer = woofer || {}
+var woofer = woofer || {} // eslint-disable-line no-use-before-define
 
 woofer.ui = (function () {
   var woofText = document.getElementById('woof-text')

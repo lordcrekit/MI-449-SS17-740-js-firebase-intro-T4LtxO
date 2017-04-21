@@ -1,6 +1,6 @@
 /* global firebase */
 
-var woofer = woofer || {}
+var woofer = woofer || {} // eslint-disable-line no-use-before-define
 
 woofer.db = (function () {
   // Initialize Firebase
@@ -19,17 +19,17 @@ woofer.db = (function () {
 
   // Create and export wooferdb
   // CREATE a new woof in Firebase
-  function createWoofInDatabase(woof) {
+  function createWoofInDatabase (woof) {
     firebase.database().ref('woofs').push(woof)
   }
 
   // UPDATE the woof in Firebase
-  function updateWoofInDatabase(woofKey, woofText) {
+  function updateWoofInDatabase (woofKey, woofText) {
     firebase.database().ref('woofs').child(woofKey).child('text').set(woofText)
   }
 
   // DELETE the woof from Firebase
-  function deleteWoofFromDatabase(woofKey) {
+  function deleteWoofFromDatabase (woofKey) {
     firebase.database().ref('woofs').child(woofKey).remove()
   }
 
